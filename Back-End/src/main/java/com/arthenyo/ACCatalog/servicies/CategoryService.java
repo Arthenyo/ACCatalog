@@ -1,5 +1,6 @@
 package com.arthenyo.ACCatalog.servicies;
 
+import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.entities.Category;
 import com.arthenyo.ACCatalog.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<Category> findAll(Pageable pageable){
+    public Page<CategoryDTO> findAll(Pageable pageable){
         Page<Category> page = categoryRepository.findAll(pageable);
-        return page;
+        return page.map(x -> new CategoryDTO(x));
     }
 }

@@ -1,5 +1,6 @@
 package com.arthenyo.ACCatalog.controlleres;
 
+import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.entities.Category;
 import com.arthenyo.ACCatalog.servicies.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<Page<Category>>findAll(Pageable pageable){
-        Page<Category> page = categoryService.findAll(pageable);
+    public ResponseEntity<Page<CategoryDTO>>findAll(Pageable pageable){
+        Page<CategoryDTO> page = categoryService.findAll(pageable);
         return ResponseEntity.ok().body(page);
     }
 }
