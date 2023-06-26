@@ -26,7 +26,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFound("Categoria não encontrada"));
+                .orElseThrow(() -> new ObjectNotFound("Categoria não encontrada" + id));
         return new CategoryDTO(category);
     }
 
@@ -36,6 +36,21 @@ public class CategoryService {
         entityToDto(entity,categoryDTO);
         entity = categoryRepository.save(entity);
         return new CategoryDTO(entity);
+    }
+
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO categoryDTO){
+        try {
+            Category entity = categoryRepository.getReferenceById(id);
+            entityToDto(entity,categoryDTO);
+            entity = categoryRepository.save(entity);
+            return new CategoryDTO(entity);
+        }catch (ObjectNotFound e){
+            throw new ObjectNotFound("Categoria nao encontrada" + id);
+        }
+
+
+
     }
 
 
