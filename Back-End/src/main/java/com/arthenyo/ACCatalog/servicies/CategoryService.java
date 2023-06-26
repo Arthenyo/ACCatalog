@@ -62,7 +62,7 @@ public class CategoryService {
         }catch (EntityNotFoundException e){
             throw new ObjectNotFound("Categoria nao encontrada " + id);
         }catch (DataIntegrityViolationException e){
-            throw new DateBaseException("Não foi possivel deletar a Categoria %d, erro de integridade " + id);
+            throw new DateBaseException("Não foi possivel deletar a Categoria " + id + ", erro de integridade");
         }
     }
 

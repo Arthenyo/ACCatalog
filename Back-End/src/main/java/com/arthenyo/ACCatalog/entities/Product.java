@@ -20,6 +20,10 @@ public class Product {
     private String imgUrl;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant date;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updateAt;
     @ManyToMany
     @JoinTable(name = "tb_product_category",
     joinColumns = @JoinColumn(name = "product_id"),
@@ -87,6 +91,14 @@ public class Product {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+    @PrePersist
+    public void prePersist(){
+        createdAt = Instant.now();
+    }
+    @PreUpdate
+    public void preUpdate(){
+        updateAt = Instant.now();
     }
 
     @Override
