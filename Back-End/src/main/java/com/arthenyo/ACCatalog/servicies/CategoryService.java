@@ -3,9 +3,11 @@ package com.arthenyo.ACCatalog.servicies;
 import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.entities.Category;
 import com.arthenyo.ACCatalog.repositories.CategoryRepository;
+import com.arthenyo.ACCatalog.servicies.exception.DateBaseException;
 import com.arthenyo.ACCatalog.servicies.exception.ObjectNotFound;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,8 @@ public class CategoryService {
             return new CategoryDTO(entity);
         }catch (EntityNotFoundException e){
             throw new ObjectNotFound("Categoria nao encontrada " + id);
+        }catch (DataIntegrityViolationException e){
+            throw new DateBaseException("Não foi possivel deletar a Categoria %d, erro de integridade " + id);
         }
     }
 
