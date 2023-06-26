@@ -4,6 +4,7 @@ import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.entities.Category;
 import com.arthenyo.ACCatalog.repositories.CategoryRepository;
 import com.arthenyo.ACCatalog.servicies.exception.ObjectNotFound;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,12 +46,20 @@ public class CategoryService {
             entityToDto(entity,categoryDTO);
             entity = categoryRepository.save(entity);
             return new CategoryDTO(entity);
-        }catch (ObjectNotFound e){
-            throw new ObjectNotFound("Categoria nao encontrada" + id);
+        }catch (EntityNotFoundException e){
+            throw new ObjectNotFound("Categoria nao encontrada " + id);
         }
+    }
 
-
-
+    @Transactional
+    public CategoryDTO delete(Long id){
+        try {
+            Category entity = categoryRepository.getReferenceById(id);
+            categoryRepository.delete(entity);
+            return new CategoryDTO(entity);
+        }catch (EntityNotFoundException e){
+            throw new ObjectNotFound("Categoria nao encontrada " + id);
+        }
     }
 
 
