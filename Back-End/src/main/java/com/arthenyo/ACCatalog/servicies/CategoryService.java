@@ -6,11 +6,13 @@ import com.arthenyo.ACCatalog.repositories.CategoryRepository;
 import com.arthenyo.ACCatalog.servicies.exception.DateBaseException;
 import com.arthenyo.ACCatalog.servicies.exception.ObjectNotFound;
 import jakarta.persistence.EntityNotFoundException;
+import org.h2.message.DbException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -53,19 +55,16 @@ public class CategoryService {
         }
     }
 
-    @Transactional
-    public CategoryDTO delete(Long id){
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id){
         try {
-            Category entity = categoryRepository.getReferenceById(id);
-            categoryRepository.delete(entity);
-            return new CategoryDTO(entity);
+            categoryRepository.deleteById(id);
         }catch (EntityNotFoundException e){
             throw new ObjectNotFound("Categoria nao encontrada " + id);
         }catch (DataIntegrityViolationException e){
             throw new DateBaseException("Não foi possivel deletar a Categoria " + id + ", erro de integridade");
         }
     }
-
 
     private void entityToDto(Category entity, CategoryDTO dto){
         entity.setName(dto.getName());

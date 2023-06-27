@@ -18,21 +18,14 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ObjectNotFound.class)
     public ResponseEntity<CustomException> objectNotFound(ObjectNotFound e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
-        CustomException err = new CustomException(
-                Instant.now(),
-                status.value(),
-                e.getMessage(),
-                request.getRequestURI());
+        CustomException err = new CustomException(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
     @ExceptionHandler(DateBaseException.class)
-    public ResponseEntity<CustomException> dateBaseException(DateBaseException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        CustomException err = new CustomException(
-                Instant.now(),
-                status.value(),
-                e.getMessage(),
-                request.getRequestURI());
+    public ResponseEntity<CustomException> dataBase(DateBaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomException err = new CustomException(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
 }

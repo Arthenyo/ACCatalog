@@ -25,7 +25,7 @@ public class CategoryController {
         Page<CategoryDTO> page = categoryService.findAll(pageable);
         return ResponseEntity.ok().body(page);
     }
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryDTO>findById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(categoryService.findById(id));
     }
@@ -38,13 +38,13 @@ public class CategoryController {
         return ResponseEntity.created(uri).body(categoryDTO);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<CategoryDTO>update(@PathVariable Long id ,@RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok().body(categoryService.update(id,categoryDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryDTO>delete(@PathVariable Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void>delete(@PathVariable Long id){
         categoryService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
