@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class ProductService {
 
@@ -54,13 +56,12 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO delete(Long id){
-        try {
-            Product entity = productRepository.getReferenceById(id);
-            productRepository.delete(entity);
-            return new ProductDTO(entity);
-        }catch (EntityNotFoundException e){
+    public void delete(Long id){
+        if(!productRepository.existsById(id)){
             throw new ObjectNotFound("Produto nao encontrada " + id);
+        }
+        try {
+            productRepository.deleteById(id);
         }catch (DataIntegrityViolationException e){
             throw new DateBaseException("Não foi possivel deletar a Produto %d, erro de integridade " + id);
         }

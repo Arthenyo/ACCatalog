@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -57,10 +58,11 @@ public class CategoryService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id){
+        if(!categoryRepository.existsById(id)){
+            throw new ObjectNotFound("Categoria nao encontrada " + id);
+        }
         try {
             categoryRepository.deleteById(id);
-        }catch (EntityNotFoundException e){
-            throw new ObjectNotFound("Categoria nao encontrada " + id);
         }catch (DataIntegrityViolationException e){
             throw new DateBaseException("Não foi possivel deletar a Categoria " + id + ", erro de integridade");
         }
