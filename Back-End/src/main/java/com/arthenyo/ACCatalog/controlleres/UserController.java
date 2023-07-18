@@ -1,9 +1,10 @@
 package com.arthenyo.ACCatalog.controlleres;
 
-import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.DTO.ProductDTO;
-import com.arthenyo.ACCatalog.servicies.CategoryService;
+import com.arthenyo.ACCatalog.DTO.UserDTO;
+import com.arthenyo.ACCatalog.DTO.UserInsertDTO;
 import com.arthenyo.ACCatalog.servicies.ProductService;
+import com.arthenyo.ACCatalog.servicies.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,38 +17,38 @@ import java.net.URI;
 
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductController {
+@RequestMapping(value = "/users")
+public class UserController {
 
     @Autowired
-    private ProductService productService;
+    private UserService userService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>>findAll(Pageable pageable){
-        Page<ProductDTO> page = productService.findAll(pageable);
+    public ResponseEntity<Page<UserDTO>>findAll(Pageable pageable){
+        Page<UserDTO> page = userService.findAll(pageable);
         return ResponseEntity.ok().body(page);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO>findById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id));
+    public ResponseEntity<UserDTO>findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO>insert(@RequestBody ProductDTO productDTO){
-        productDTO = productService.Insert(productDTO);
+    public ResponseEntity<UserDTO>insert(@RequestBody UserInsertDTO userDTO){
+        UserDTO newDTO = userService.Insert(userDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
-                .buildAndExpand(productDTO.getId()).toUri();
-        return ResponseEntity.created(uri).body(productDTO);
+                .buildAndExpand(newDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(newDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO>update(@PathVariable Long id ,@RequestBody ProductDTO productDTO){
-        return ResponseEntity.ok().body(productService.update(id,productDTO));
+    public ResponseEntity<UserDTO>update(@PathVariable Long id ,@RequestBody UserDTO userDTO){
+        return ResponseEntity.ok().body(userService.update(id,userDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void>delete(@PathVariable Long id){
-        productService.delete(id);
+        userService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
