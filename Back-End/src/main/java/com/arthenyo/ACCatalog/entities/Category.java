@@ -59,6 +59,10 @@ public class Category {
         updateAt = Instant.now();
     }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,4 +77,6 @@ public class Category {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+
 }
