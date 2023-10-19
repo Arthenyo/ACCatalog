@@ -1,6 +1,10 @@
 package com.arthenyo.ACCatalog.DTO;
 
 import com.arthenyo.ACCatalog.entities.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +12,13 @@ import java.util.Set;
 public class UserDTO {
 
     private Long id;
+    @NotBlank(message = "Campo Obrigatorio")
+    @Size(min = 3, max =  15, message = "O campo deve ter no minimo 3 caracteres e no maximo 15 caracteres")
     private String firstName;
+    @NotBlank(message = "Campo Obrigatorio")
+    @Size(min = 3, max =  15, message = "O campo deve ter no minimo 3 caracteres e no maximo 15 caracteres")
     private String lastName;
+    @Email(message = "Favor Entar Email Valido")
     private String email;
 
     Set<RoleDTO> roles = new HashSet<>();

@@ -2,6 +2,7 @@ package com.arthenyo.ACCatalog.controlleres;
 
 import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.servicies.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO>insert(@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<CategoryDTO>insert(@Valid @RequestBody CategoryDTO categoryDTO){
         categoryDTO = categoryService.Insert(categoryDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(categoryDTO.getId()).toUri();
@@ -39,7 +40,7 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<CategoryDTO>update(@PathVariable Long id ,@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<CategoryDTO>update(@Valid @PathVariable Long id ,@RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok().body(categoryService.update(id,categoryDTO));
     }
 

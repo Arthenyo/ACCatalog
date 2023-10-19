@@ -5,6 +5,7 @@ import com.arthenyo.ACCatalog.DTO.UserDTO;
 import com.arthenyo.ACCatalog.DTO.UserInsertDTO;
 import com.arthenyo.ACCatalog.servicies.ProductService;
 import com.arthenyo.ACCatalog.servicies.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO>insert(@RequestBody UserInsertDTO userDTO){
+    public ResponseEntity<UserDTO>insert(@Valid @RequestBody UserInsertDTO userDTO){
         UserDTO newDTO = userService.Insert(userDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(newDTO.getId()).toUri();
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO>update(@PathVariable Long id ,@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO>update(@Valid @PathVariable Long id ,@RequestBody UserDTO userDTO){
         return ResponseEntity.ok().body(userService.update(id,userDTO));
     }
 
