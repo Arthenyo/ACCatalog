@@ -1,5 +1,8 @@
 package com.arthenyo.ACCatalog.DTO;
 
+import com.arthenyo.ACCatalog.servicies.validation.UserInsertValid;
+
+@UserInsertValid
 public class UserInsertDTO extends UserDTO{
 
     private String password;
