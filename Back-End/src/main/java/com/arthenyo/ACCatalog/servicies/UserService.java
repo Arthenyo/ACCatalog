@@ -49,7 +49,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO userDTO){
+    public UserDTO update(Long id, UserUpdateDTO userDTO){
         try {
             User entity = userRepository.getReferenceById(id);
             entityToDto(entity,userDTO);

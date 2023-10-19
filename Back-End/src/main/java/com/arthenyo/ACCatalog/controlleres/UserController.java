@@ -3,6 +3,7 @@ package com.arthenyo.ACCatalog.controlleres;
 import com.arthenyo.ACCatalog.DTO.ProductDTO;
 import com.arthenyo.ACCatalog.DTO.UserDTO;
 import com.arthenyo.ACCatalog.DTO.UserInsertDTO;
+import com.arthenyo.ACCatalog.DTO.UserUpdateDTO;
 import com.arthenyo.ACCatalog.servicies.ProductService;
 import com.arthenyo.ACCatalog.servicies.UserService;
 import jakarta.validation.Valid;
@@ -43,8 +44,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO>update(@Valid @PathVariable Long id ,@RequestBody UserDTO userDTO){
-        return ResponseEntity.ok().body(userService.update(id,userDTO));
+    public ResponseEntity<UserDTO>update(@PathVariable Long id , @Valid @RequestBody UserUpdateDTO userUpdateDTO){
+        UserDTO newDto = userService.update(id,userUpdateDTO);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @DeleteMapping("/{id}")
