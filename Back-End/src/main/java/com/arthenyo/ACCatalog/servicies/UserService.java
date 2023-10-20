@@ -5,6 +5,7 @@ import com.arthenyo.ACCatalog.entities.Category;
 import com.arthenyo.ACCatalog.entities.Product;
 import com.arthenyo.ACCatalog.entities.Role;
 import com.arthenyo.ACCatalog.entities.User;
+import com.arthenyo.ACCatalog.projections.UserDetailsProjection;
 import com.arthenyo.ACCatalog.repositories.ProductRepository;
 import com.arthenyo.ACCatalog.repositories.UserRepository;
 import com.arthenyo.ACCatalog.servicies.exception.DateBaseException;
@@ -14,12 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -83,5 +89,20 @@ public class UserService {
             role.setId(roleDTO.getId());
             entity.getRoles().add(role);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        List<UserDetailsProjection> result = userRepository.searchUserAndRolesByEmail(username);
+        if(result.size() == 0){
+            throw new UsernameNotFoundException("Usuario nao encontrado");
+        }
+        User user = new User();
+        user.setEmail(username);
+        user.setPassword(result.get(0).getPassword());
+        for(UserDetailsProjection projection : result){
+            user.addRole(new Role(projection.getRoleId(),projection.getAuthority()));
+        }
+        return user;
     }
 }
