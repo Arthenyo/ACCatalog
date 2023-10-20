@@ -1,12 +1,9 @@
 package com.arthenyo.ACCatalog.servicies;
 
 import com.arthenyo.ACCatalog.DTO.*;
-import com.arthenyo.ACCatalog.entities.Category;
-import com.arthenyo.ACCatalog.entities.Product;
 import com.arthenyo.ACCatalog.entities.Role;
 import com.arthenyo.ACCatalog.entities.User;
 import com.arthenyo.ACCatalog.projections.UserDetailsProjection;
-import com.arthenyo.ACCatalog.repositories.ProductRepository;
 import com.arthenyo.ACCatalog.repositories.UserRepository;
 import com.arthenyo.ACCatalog.servicies.exception.DateBaseException;
 import com.arthenyo.ACCatalog.servicies.exception.ObjectNotFound;
