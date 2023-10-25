@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -25,9 +27,9 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<CategoryDTO> findAll(Pageable pageable){
-        Page<Category> page = categoryRepository.findAll(pageable);
-        return page.map(x -> new CategoryDTO(x));
+    public List<CategoryDTO> findAll(){
+        List<Category> page = categoryRepository.findAll();
+        return page.stream().map(CategoryDTO::new).toList();
     }
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
