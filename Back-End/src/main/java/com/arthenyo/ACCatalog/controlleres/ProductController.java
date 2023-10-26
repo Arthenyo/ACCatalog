@@ -2,6 +2,7 @@ package com.arthenyo.ACCatalog.controlleres;
 
 import com.arthenyo.ACCatalog.DTO.CategoryDTO;
 import com.arthenyo.ACCatalog.DTO.ProductDTO;
+import com.arthenyo.ACCatalog.projections.ProductProjection;
 import com.arthenyo.ACCatalog.servicies.CategoryService;
 import com.arthenyo.ACCatalog.servicies.ProductService;
 import jakarta.validation.Valid;
@@ -25,8 +26,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>>findAll(Pageable pageable){
-        Page<ProductDTO> page = productService.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>>findAll(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
+            Pageable pageable){
+        Page<ProductDTO> page = productService.findAllPage(name, categoryId, pageable);
         return ResponseEntity.ok().body(page);
     }
     @GetMapping("/{id}")
